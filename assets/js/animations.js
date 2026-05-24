@@ -78,21 +78,28 @@ document.querySelectorAll('.hero .hero-stage[data-parallax]').forEach(function (
   });
 });
 
-/* ── Reveal genérico ── */
+/* ── Reveal genérico: ATRELADO AO SCROLL (scrub) ── */
 document.querySelectorAll('.scroll-item').forEach(function (el) {
   if (el.closest('.hero')) return;
   if (el.classList.contains('property-card'))    return;
   if (el.classList.contains('region-card'))      return;
   if (el.classList.contains('testimonial-card')) return;
-  gsap.to(el, {
-    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
-    opacity: 1, y: 0,
-    duration: 1.2, ease: 'power3.out',
-    clearProps: 'transform'
-  });
+  gsap.fromTo(el,
+    { opacity: 0, y: 32 },
+    {
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 92%',     // começa a revelar quando entra por baixo
+        end: 'top 55%',       // totalmente visível ao subir até ~meia tela
+        scrub: true
+      }
+    }
+  );
 });
 
-/* ── Card groups com stagger ── */
+/* ── Card groups com stagger: ATRELADO AO SCROLL (scrub) ──
+   Os cards revelam em sequência conforme a roda do mouse rola. */
 function staggerGroup(parentSel, itemSel, opts) {
   opts = opts || {};
   var parent = document.querySelector(parentSel);
@@ -100,23 +107,21 @@ function staggerGroup(parentSel, itemSel, opts) {
   var items = parent.querySelectorAll(itemSel);
   if (!items.length) return;
   gsap.set(items, { opacity: 0, y: opts.y || 30 });
-  ScrollTrigger.create({
-    trigger: parent, start: opts.start || 'top 80%', once: true,
-    onEnter: function () {
-      gsap.to(items, {
-        opacity: 1, y: 0,
-        duration: opts.duration || 0.6,
-        ease: opts.ease || 'power2.out',
-        stagger: opts.stagger || 0.08,
-        clearProps: 'transform,opacity'
-      });
+  gsap.to(items, {
+    opacity: 1, y: 0, ease: 'none',
+    stagger: opts.stagger || 0.4,        // offset maior pra leitura sequencial no scrub
+    scrollTrigger: {
+      trigger: parent,
+      start: opts.start || 'top 88%',
+      end: opts.end || 'top 42%',
+      scrub: true
     }
   });
 }
 
-staggerGroup('.properties-grid',   '.property-card',    { y: 40, stagger: 0.14, duration: 1.05, ease: 'power3.out' });
-staggerGroup('.regions-grid',      '.region-card',      { y: 40, stagger: 0.14, duration: 1.05, ease: 'power3.out', start: 'top 85%' });
-staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, duration: 1.05, ease: 'power3.out' });
+staggerGroup('.properties-grid',   '.property-card',    { y: 40 });
+staggerGroup('.regions-grid',      '.region-card',      { y: 40, start: 'top 90%' });
+staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36 });
 
 /* ── Book scene reveal: livro SURGE DA ESQUERDA → DIREITA e para na posição final ── */
 (function () {
@@ -141,48 +146,31 @@ staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, 
   if (shadow) gsap.set(shadow, { opacity: 0, scaleX: 0.4, x: -40 });
   if (ornaments.length) gsap.set(ornaments, { opacity: 0, y: 10 });
 
-  ScrollTrigger.create({
-    trigger: scene,
-    start: 'top 78%',
-    once: true,
-    onEnter: function () {
-      var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      // sombra acompanha o livro chegando da esquerda
-      tl.to(shadow, {
-        opacity: 1, scaleX: 1, x: 0, duration: 1.1, ease: 'power2.out'
-      }, 0.3);
-
-      // livro desliza da esquerda pra direita e para na posição final atual
-      tl.to(book, {
-        opacity: 1,
-        xPercent: 0,
-        scale: 1,
-        y: 0,
-        rotationY: -14,
-        rotationX: 4,
-        rotationZ: -2,
-        duration: 1.4,
-        ease: 'expo.out'
-      }, 0);
-
-      // settle: oscilação no eixo Z após aterrissar — power2.out (entrada de peso)
-      tl.to(book, {
-        rotationZ: -1.5,
-        duration: 0.65,
-        ease: 'power2.out',
-        yoyo: true,
-        repeat: 1
-      }, '>-0.15');
-
-      // ornamentos da capa surgem no final
-      if (ornaments.length) {
-        tl.to(ornaments, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.08
-        }, '-=0.5');
-      }
+  // Timeline ATRELADA AO SCROLL: o livro desliza da esquerda → direita
+  // conforme a roda do mouse rola, parando na posição final.
+  var tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: scene,
+      start: 'top 90%',
+      end: 'top 35%',
+      scrub: true
     }
   });
+
+  // livro desliza da esquerda e gira até a posição final
+  tl.to(book, {
+    opacity: 1, xPercent: 0, scale: 1, y: 0,
+    rotationY: -14, rotationX: 4, rotationZ: -2
+  }, 0);
+
+  // sombra acompanha
+  if (shadow) tl.to(shadow, { opacity: 1, scaleX: 1, x: 0 }, 0.1);
+
+  // ornamentos da capa surgem no trecho final do scroll
+  if (ornaments.length) {
+    tl.to(ornaments, { opacity: 1, y: 0, stagger: 0.1 }, 0.55);
+  }
 })();
 
 /* ── Credentials reveal ── */
@@ -193,29 +181,31 @@ staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, 
   if (!items.length) return;
   gsap.set(items, { opacity: 0, x: -20, clipPath: 'inset(0 100% 0 0)' });
   var sobreSection = document.getElementById('sobre');
-  ScrollTrigger.create({
-    trigger: sobreSection || parent,
-    start: 'top 75%', once: true,
-    onEnter: function () {
-      var tl = gsap.timeline({ defaults: { duration: 0.85, ease: 'power3.out' } });
-      items.forEach(function (el, i) {
-        tl.to(el, {
-          opacity: 1, x: 0, clipPath: 'inset(0 0% 0 0)'
-        }, i === 0 ? 0 : '>0.08');
-      });
+  // ATRELADO AO SCROLL: credenciais revelam em sequência conforme a rolagem
+  var tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: sobreSection || parent,
+      start: 'top 80%',
+      end: 'top 38%',
+      scrub: true
     }
+  });
+  items.forEach(function (el, i) {
+    tl.to(el, { opacity: 1, x: 0, clipPath: 'inset(0 0% 0 0)' }, i * 0.4);
   });
 })();
 
-/* ── CTA card reveal: castelo e ornamentos sobem suave ── */
-ScrollTrigger.create({
-  trigger: '.cta-card', start: 'top 78%', once: true,
-  onEnter: function () {
-    gsap.from('.cta-card-castle, .cta-card-ornament', {
-      opacity: 0, y: 20, duration: 1.1, ease: 'power3.out', stagger: 0.12
-    });
-  }
-});
+/* ── CTA card reveal: castelo e ornamentos sobem ATRELADO AO SCROLL ── */
+(function () {
+  var els = document.querySelectorAll('.cta-card-castle, .cta-card-ornament');
+  if (!els.length) return;
+  gsap.set(els, { opacity: 0, y: 20 });
+  gsap.to(els, {
+    opacity: 1, y: 0, ease: 'none', stagger: 0.3,
+    scrollTrigger: { trigger: '.cta-card', start: 'top 85%', end: 'top 48%', scrub: true }
+  });
+})();
 
 /* ── Counter ── */
 ScrollTrigger.create({
