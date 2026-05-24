@@ -118,7 +118,7 @@ staggerGroup('.properties-grid',   '.property-card',    { y: 40, stagger: 0.14, 
 staggerGroup('.regions-grid',      '.region-card',      { y: 40, stagger: 0.14, duration: 1.05, ease: 'power3.out', start: 'top 85%' });
 staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, duration: 1.05, ease: 'power3.out' });
 
-/* ── Book scene reveal: livro entra do nada, rotaciona pra posição final ── */
+/* ── Book scene reveal: livro SURGE DA ESQUERDA → DIREITA e para na posição final ── */
 (function () {
   var scene = document.querySelector('.book-scene');
   if (!scene) return;
@@ -127,17 +127,18 @@ staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, 
   var ornaments = scene.querySelectorAll('.book-cover-emblem, .book-cover-title, .book-cover-ornament, .book-cover-frame');
   if (!book) return;
 
-  // estado inicial: livro fora de posição (longe, virado de lado, invisível)
+  // estado inicial: livro fora de quadro à ESQUERDA, capa lateralizada e invisível
   gsap.set(book, {
     opacity: 0,
-    scale: 0.55,
-    y: 80,
-    rotationY: -55,
-    rotationX: 18,
-    rotationZ: -12,
-    transformOrigin: '50% 70%'
+    xPercent: -180,            // fora da tela à esquerda
+    scale: 0.72,
+    y: 0,
+    rotationY: 55,             // capa quase de perfil enquanto desliza
+    rotationX: 6,
+    rotationZ: -8,
+    transformOrigin: '50% 60%'
   });
-  if (shadow) gsap.set(shadow, { opacity: 0, scaleX: 0.4 });
+  if (shadow) gsap.set(shadow, { opacity: 0, scaleX: 0.4, x: -40 });
   if (ornaments.length) gsap.set(ornaments, { opacity: 0, y: 10 });
 
   ScrollTrigger.create({
@@ -147,22 +148,23 @@ staggerGroup('.testimonials-grid', '.testimonial-card', { y: 36, stagger: 0.14, 
     onEnter: function () {
       var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      // sombra surge primeiro como "aterrissagem"
+      // sombra acompanha o livro chegando da esquerda
       tl.to(shadow, {
-        opacity: 1, scaleX: 1, duration: 1.1, ease: 'power2.out'
-      }, 0);
+        opacity: 1, scaleX: 1, x: 0, duration: 1.1, ease: 'power2.out'
+      }, 0.3);
 
-      // livro aterrissa: vem de longe, rotaciona pra capa pra frente
+      // livro desliza da esquerda pra direita e para na posição final atual
       tl.to(book, {
         opacity: 1,
+        xPercent: 0,
         scale: 1,
         y: 0,
         rotationY: -14,
         rotationX: 4,
         rotationZ: -2,
         duration: 1.4,
-        ease: 'power3.out'
-      }, 0.05);
+        ease: 'expo.out'
+      }, 0);
 
       // settle: oscilação no eixo Z após aterrissar — power2.out (entrada de peso)
       tl.to(book, {

@@ -1266,14 +1266,13 @@ body.preloading .ambient { opacity: 0; }
 .book-cover-art {
   position: absolute;
   inset: 0;
-  background-image: url("../img/castel_textura.png");
+  background-image: url("../img/textura roxa.png");
   background-size: cover;
   background-position: center;
   mix-blend-mode: overlay;
   opacity: 0.5;
   transition: transform 1s var(--ease-smooth);
 }
-.book-scene:hover .book-cover-art { transform: scale(1.06); }
 
 /* Vinheta escurecendo as bordas da capa */
 .book-cover-vignette {
