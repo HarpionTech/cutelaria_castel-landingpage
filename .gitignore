@@ -1,0 +1,7 @@
+# Ferramentas de dev / não fazem parte da página
+.agents/
+.claude/
+
+# Sistema
+Thumbs.db
+.DS_Store
