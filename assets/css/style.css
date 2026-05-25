@@ -49,6 +49,22 @@ html { -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
 
 body {
   font-family: var(--font-body);
+  background: #14060a;
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Fundo cinematográfico numa CAMADA FIXA composta (em vez de
+   background-attachment:fixed no body, que forçava repaint do viewport
+   inteiro a cada frame de scroll = jank no mobile). Pintada uma vez. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
     /* brilho metálico — reflexos largos e diagonais */
     linear-gradient(135deg,
@@ -73,11 +89,6 @@ body {
       #1b0810 45%,
       #220a12 70%,
       #14060a 100%);
-  background-attachment: fixed;
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
-  position: relative;
 }
 
 body.menu-open { overflow:hidden; }
@@ -2294,7 +2305,9 @@ body.preloading .ambient { opacity: 0; }
 /* ============================================
    SCROLL ITEMS — set by GSAP
    ============================================ */
-.scroll-item { will-change: transform, opacity; }
+/* sem will-change permanente: promover dezenas de camadas o tempo todo
+   pesa no mobile. Os reveals são curtos; deixamos o compositor decidir. */
+.scroll-item { }
 
 /* ============================================
    RESPONSIVO
