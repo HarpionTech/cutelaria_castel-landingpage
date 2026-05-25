@@ -223,7 +223,7 @@ body.preloading { overflow: hidden; }
 /* ─── Camera-in: zoom único, atravessando a PORTA do castelo ─── */
 .preloader-castle.zooming {
   animation: castleCameraIn 1.1s cubic-bezier(0.65, 0, 0.95, 0.4) forwards;
-  transform-origin: 47% 75%; /* centro da porta arqueada do PNG */
+  transform-origin: 48% 70%; /* centro do vão da porta — alinhado ao ponto de fuga do túnel (50% 70%) */
 }
 .preloader-castle.zooming::before { animation: none; opacity: 0; }
 
@@ -2392,6 +2392,15 @@ body.preloading .ambient { opacity: 0; }
 
   /* Reduz custo de composição: o glow animado do CTA também para. */
   .cta-card-glow { animation: none; }
+
+  /* ── Preloader em portrait: o castelo (imagem landscape) deixa vão
+     vazio embaixo ao dar zoom. Revela o túnel ATRÁS dele já no início
+     do mergulho — o vão vira o corredor e o castelo "entra" nele,
+     em vez de cortar pela metade sobre fundo vazio. ── */
+  .preloader.zooming-out .preloader-tunnel {
+    opacity: 1;
+    transition: opacity 0.55s ease-out;
+  }
 }
 
 @media (max-width: 480px) {
