@@ -2327,29 +2327,9 @@ body.preloading .ambient { opacity: 0; }
   .ecom-trust { gap: 16px; justify-content: center; }
   .catalog-filters { gap: 8px; margin-top: -10px; margin-bottom: 36px; }
   .filter-chip { font-size: 12px; padding: 8px 14px; }
-  /* Preloader: castelo começa pequeno e cresce até a PORTA ESCURA
-     (recorte do PNG) cobrir a tela inteira — depois entra o túnel.
-     A porta é transparente: ao crescer, revela o fundo escuro atrás.
-     Escala maior + fade adiado garantem que o escuro cubra tudo
-     no portrait antes do castelo sumir. */
+  /* Preloader idêntico ao desktop — só o tamanho inicial do castelo
+     se ajusta (a animação de zoom é a mesma). */
   .preloader-castle { width: 130px; }
-  .preloader-castle.zooming {
-    transform-origin: 47% 74%;          /* centro do vão da porta */
-    animation-name: castleCameraInMob;
-    animation-timing-function: linear;  /* crescimento gradual e visível */
-    animation-duration: 1.4s;           /* um pouco mais lento p/ ver crescer */
-  }
-  @keyframes castleCameraInMob {
-    /* blur progressivo mascara o enquadramento durante o zoom: os frames
-       intermediários viram um borrão suave → transição imperceptível */
-    0%   { transform: scale(1);   opacity: 1; filter: blur(0); }
-    45%  { filter: blur(2px); }
-    92%  { transform: scale(120); opacity: 1; filter: blur(7px); }
-    100% { transform: scale(150); opacity: 0; filter: blur(13px); }
-  }
-  /* Ao iniciar o mergulho, o fundo vira preto: a tela escurece por
-     inteiro (porta + fundo) antes do túnel — "porta escura cobre tudo". */
-  .preloader.zooming-out { background: #000; transition: background 0.45s ease-in; }
 
   /* Book + Sobre */
   .about-grid { gap: 32px; }
