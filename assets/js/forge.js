@@ -167,19 +167,16 @@
     });
   }
 
-  // O canvas só é visível atrás do hero (as seções têm fundo opaco).
-  // Quando rolado para fora do hero, pausa o desenho (mantém o rAF leve)
-  // — evita custo de fillrate/blend à toa durante o scroll.
-  var visible = true;
-  window.addEventListener('scroll', function () {
-    visible = window.pageYOffset < window.innerHeight * 1.1;
-  }, { passive: true });
+  // Pausa o desenho apenas quando a aba está oculta (economia sem
+  // afetar a experiência). As partículas seguem se movendo enquanto
+  // a página estiver visível, inclusive durante o scroll.
+  var pageVisible = true;
   document.addEventListener('visibilitychange', function () {
-    visible = !document.hidden && window.pageYOffset < window.innerHeight * 1.1;
+    pageVisible = !document.hidden;
   });
 
   function step() {
-    if (!visible) { requestAnimationFrame(step); return; }
+    if (!pageVisible) { requestAnimationFrame(step); return; }
     t++;
     ctx.globalCompositeOperation = 'source-over';
     ctx.clearRect(0, 0, W, H);
