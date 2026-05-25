@@ -2336,11 +2336,14 @@ body.preloading .ambient { opacity: 0; }
   .preloader-castle.zooming {
     transform-origin: 47% 74%;          /* centro do vão da porta */
     animation-name: castleCameraInMob;
+    animation-timing-function: linear;  /* crescimento gradual e visível */
+    animation-duration: 1.4s;           /* um pouco mais lento p/ ver crescer */
   }
   @keyframes castleCameraInMob {
     0%   { transform: scale(1);   opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: scale(130); opacity: 0; }
+    /* a porta escura cobre a tela em ~70% do tempo; só então some */
+    92%  { transform: scale(120); opacity: 1; }
+    100% { transform: scale(150); opacity: 0; }
   }
   /* Ao iniciar o mergulho, o fundo vira preto: a tela escurece por
      inteiro (porta + fundo) antes do túnel — "porta escura cobre tudo". */
