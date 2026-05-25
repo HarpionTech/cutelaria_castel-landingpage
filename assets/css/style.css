@@ -223,7 +223,7 @@ body.preloading { overflow: hidden; }
 /* ─── Camera-in: zoom único, atravessando a PORTA do castelo ─── */
 .preloader-castle.zooming {
   animation: castleCameraIn 1.1s cubic-bezier(0.65, 0, 0.95, 0.4) forwards;
-  transform-origin: 48% 70%; /* centro do vão da porta — alinhado ao ponto de fuga do túnel (50% 70%) */
+  transform-origin: 47% 75%; /* centro da porta arqueada do PNG */
 }
 .preloader-castle.zooming::before { animation: none; opacity: 0; }
 
@@ -2327,7 +2327,26 @@ body.preloading .ambient { opacity: 0; }
   .ecom-trust { gap: 16px; justify-content: center; }
   .catalog-filters { gap: 8px; margin-top: -10px; margin-bottom: 36px; }
   .filter-chip { font-size: 12px; padding: 8px 14px; }
-  .preloader-castle { width: 110px; }
+  /* ── Preloader COVER: castelo preenche a tela no portrait (torres
+     das pontas ficam cortadas) e mergulha pela porta central, igual
+     ao "preenchimento" do desktop — sem vão vazio embaixo. ── */
+  .preloader-castle {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: none;
+  }
+  .preloader-castle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 47% 42%;     /* mostra torre central + porta */
+    transform: scale(1.6);        /* corta as margens transparentes do PNG */
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.55));
+  }
+  /* mergulho entra exatamente pela porta escura (≈47% / 82% da tela em cover) */
+  .preloader-castle.zooming { transform-origin: 47% 82%; }
 
   /* Book + Sobre */
   .about-grid { gap: 32px; }
@@ -2392,15 +2411,6 @@ body.preloading .ambient { opacity: 0; }
 
   /* Reduz custo de composição: o glow animado do CTA também para. */
   .cta-card-glow { animation: none; }
-
-  /* ── Preloader em portrait: o castelo (imagem landscape) deixa vão
-     vazio embaixo ao dar zoom. Revela o túnel ATRÁS dele já no início
-     do mergulho — o vão vira o corredor e o castelo "entra" nele,
-     em vez de cortar pela metade sobre fundo vazio. ── */
-  .preloader.zooming-out .preloader-tunnel {
-    opacity: 1;
-    transition: opacity 0.55s ease-out;
-  }
 }
 
 @media (max-width: 480px) {
