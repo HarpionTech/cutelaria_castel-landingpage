@@ -745,7 +745,7 @@ body.preloading .ambient { opacity: 0; }
   overflow: hidden;
   isolation: isolate;
   background:
-    url("../img/carta.png") center/100% 100% no-repeat,
+    url("../img/carta.webp") center/100% 100% no-repeat,
     #4a1418;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   box-shadow:
@@ -1266,7 +1266,7 @@ body.preloading .ambient { opacity: 0; }
 .book-cover-art {
   position: absolute;
   inset: 0;
-  background-image: url("../img/textura roxa.png");
+  background-image: url("../img/textura_roxa.webp");
   background-size: cover;
   background-position: center;
   mix-blend-mode: overlay;
@@ -1444,12 +1444,12 @@ body.preloading .ambient { opacity: 0; }
 }
 
 /* ─── 6 TEXTURAS ÚNICAS (uma por card, sem repetir) ─── */
-.property-card.texture-blue      { --card-texture: url("../img/textura%20azul.png"); }
-.property-card.texture-purple    { --card-texture: url("../img/textura%20roxa.png"); }
-.property-card.texture-green     { --card-texture: url("../img/textura%20verde.png"); }
-.property-card.texture-wood1     { --card-texture: url("../img/textura%20amadeirada.png"); }
-.property-card.texture-wood2     { --card-texture: url("../img/textura%20amadeirada2.png"); }
-.property-card.texture-castle    { --card-texture: url("../img/castel_textura.png"); }
+.property-card.texture-blue      { --card-texture: url("../img/textura_azul.webp"); }
+.property-card.texture-purple    { --card-texture: url("../img/textura_roxa.webp"); }
+.property-card.texture-green     { --card-texture: url("../img/textura_verde.webp"); }
+.property-card.texture-wood1     { --card-texture: url("../img/textura_amadeirada.webp"); }
+.property-card.texture-wood2     { --card-texture: url("../img/textura_amadeirada2.webp"); }
+.property-card.texture-castle    { --card-texture: url("../img/castel_textura.webp"); }
 /* ─── Borda dourada elegante (sem moldura PNG) ─── */
 .property-card {
   border: 1px solid rgba(201, 162, 75, 0.18);
@@ -2189,7 +2189,7 @@ body.preloading .ambient { opacity: 0; }
       rgba(15, 8, 4, 0.55) 80%,
       rgba(5, 2, 2, 0.85) 100%),
     /* textura amadeirada ornamentada */
-    url("../img/textura%20amadeirada2.png");
+    url("../img/textura_amadeirada2.webp");
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
@@ -2347,11 +2347,51 @@ body.preloading .ambient { opacity: 0; }
   /* Section padding mais enxuto */
   .section { padding: clamp(60px, 12vw, 100px) 0; }
 
-  /* Ambient: filtros mais leves em telas pequenas (perf) */
-  .ambient-beam { filter: blur(28px); opacity: 0.75; }
-  .ambient-shimmer { filter: blur(6px); }
-  .ambient-smoke { filter: blur(28px); opacity: 0.55; }
-  .ambient-corner { filter: blur(40px); }
+  /* ──────────────────────────────────────────────────────────
+     PERFORMANCE MOBILE — alvo: 60fps fixo.
+     Animações infinitas de camadas full-screen blurradas/blended
+     forçam re-rasterização a cada frame. No celular, congelamos
+     essas camadas (mantém o clima sem custo de runtime).
+     ────────────────────────────────────────────────────────── */
+
+  /* Ambient: mantém só os feixes estáticos e leves; mata as camadas
+     mais caras (fumaça, scan, haze, shimmer, corners) e as animações. */
+  .ambient-smoke,
+  .ambient-scan,
+  .ambient-haze,
+  .ambient-shimmer,
+  .ambient-corner { display: none; }
+  .ambient-beam {
+    animation: none !important;
+    filter: blur(24px);
+    opacity: 0.5;
+  }
+
+  /* Grain global: mix-blend-mode animado é caro ao rolar — desliga. */
+  .global-grain { display: none; }
+
+  /* backdrop-filter recalcula o desfoque do fundo a cada scroll =
+     jank. Troca por fundo sólido semitransparente no celular. */
+  .navbar.navbar-scrolled {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(10, 5, 6, 0.94);
+  }
+  .mobile-menu {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(10, 5, 6, 0.97);
+  }
+  .btn-secondary,
+  .hero-stats,
+  .property-tag {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .hero-stats { background: rgba(18, 10, 10, 0.7); }
+
+  /* Reduz custo de composição: o glow animado do CTA também para. */
+  .cta-card-glow { animation: none; }
 }
 
 @media (max-width: 480px) {

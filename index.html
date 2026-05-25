@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preload" as="image" href="assets/img/icone.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/salao.webp">
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet">
@@ -158,7 +160,7 @@
     <div class="preloader-tunnel" aria-hidden="true">
       <div class="tunnel-3d">
         <video class="tunnel-img" autoplay muted loop playsinline preload="auto"
-               poster="assets/img/intro.png">
+               poster="assets/img/intro.webp">
           <source src="assets/img/intro%20em%20video.mp4" type="video/mp4" />
         </video>
         <div class="tunnel-fallback"></div>
@@ -172,7 +174,7 @@
 
     <!-- Castelo central (ícone bronze) com sweep dourado interno -->
     <div class="preloader-castle" id="preloaderCastle">
-      <img src="assets/img/icone.png" alt="Facas Castel" draggable="false" />
+      <img src="assets/img/icone.webp" alt="Facas Castel" draggable="false" />
     </div>
 
     <span class="preloader-label">Facas Castel</span>
@@ -185,7 +187,7 @@
   <nav class="navbar" id="navbar">
     <div class="navbar-inner">
       <a href="#hero" class="navbar-logo">
-        <img class="logo-castle" src="assets/img/icone.png" alt="" />
+        <img class="logo-castle" src="assets/img/icone.webp" alt="" />
         <span class="navbar-logo-text">Facas <span class="accent">Castel</span></span>
       </a>
       <ul class="navbar-links">
@@ -236,14 +238,14 @@
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true">
       <div class="hero-stage" data-parallax="0.25">
-        <img class="hero-stage-img" src="assets/img/salao.png" alt="" draggable="false" />
+        <img class="hero-stage-img" src="assets/img/salao.webp" alt="" draggable="false" />
       </div>
       <div class="hero-vignette"></div>
       <div class="hero-grain"></div>
     </div>
     <div class="hero-content">
       <div class="hero-castle scroll-item scroll-fade-up delay-50">
-        <img src="assets/img/icone.png" alt="" />
+        <img src="assets/img/icone.webp" alt="" />
       </div>
       <span class="hero-eyebrow scroll-item scroll-fade-up delay-100">@facascastel</span>
       <h1 class="hero-title scroll-item scroll-fade-up delay-150">
@@ -415,10 +417,10 @@
         <!-- Card 1 — Tática Ametista -->
         <article class="property-card texture-purple scroll-item scroll-fade-up" data-category="tatica">
           <div class="property-image">
-            <img src="assets/img/faca-1.jpg" alt="Faca tática com cabo em resina ametista" class="knife-photo"
+            <img src="assets/img/faca-1.webp" alt="Faca tática com cabo em resina ametista" class="knife-photo"
               loading="lazy" onerror="this.style.display='none'">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Edição Limitada</div>
@@ -452,10 +454,10 @@
         <!-- Card 2 — Revólver -->
         <article class="property-card texture-castle scroll-item scroll-fade-up delay-100" data-category="colecao">
           <div class="property-image">
-            <img src="assets/img/faca-2.jpg" alt="Faca escultural em formato de revólver" class="knife-photo"
+            <img src="assets/img/faca-2.webp" alt="Faca escultural em formato de revólver" class="knife-photo"
               loading="lazy" onerror="this.style.display='none'">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Colecionador</div>
@@ -489,10 +491,10 @@
         <!-- Card 3 — Chef Galaxy -->
         <article class="property-card texture-green scroll-item scroll-fade-up delay-200" data-category="chef">
           <div class="property-image">
-            <img src="assets/img/faca-3.jpg" alt="Faca de chef com cabo em resina multicolor" class="knife-photo"
+            <img src="assets/img/faca-3.webp" alt="Faca de chef com cabo em resina multicolor" class="knife-photo"
               loading="lazy" onerror="this.style.display='none'">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Premium</div>
@@ -527,7 +529,7 @@
         <article class="property-card texture-wood1 scroll-item scroll-fade-up" data-category="cutelos">
           <div class="property-image">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Em breve</div>
@@ -562,7 +564,7 @@
         <article class="property-card texture-wood2 scroll-item scroll-fade-up delay-100" data-category="caca">
           <div class="property-image">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Em breve</div>
@@ -597,7 +599,7 @@
         <article class="property-card texture-blue scroll-item scroll-fade-up delay-200" data-category="churrasco">
           <div class="property-image">
             <div class="property-image-fallback">
-              <img src="assets/img/icone.png" alt="" />
+              <img src="assets/img/icone.webp" alt="" />
             </div>
             <div class="property-image-overlay"></div>
             <div class="property-tag">Kit</div>
@@ -638,7 +640,7 @@
     <div class="container">
       <div class="ecom-gate scroll-item scroll-fade-up">
         <div class="ecom-gate-bg" aria-hidden="true">
-          <img class="ecom-castle-watermark" src="assets/img/icone.png" alt="" />
+          <img class="ecom-castle-watermark" src="assets/img/icone.webp" alt="" />
         </div>
         <div class="ecom-gate-content">
           <span class="section-tag">Loja Online</span>
@@ -814,7 +816,7 @@
           </svg>
         </div>
         <div class="cta-card-castle" aria-hidden="true">
-          <img src="assets/img/icone.png" alt="" draggable="false" />
+          <img src="assets/img/icone.webp" alt="" draggable="false" />
         </div>
 
         <div class="cta-content">
@@ -868,7 +870,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img src="assets/img/icone.png" alt="" />
+            <img src="assets/img/icone.webp" alt="" />
             <span>Cutelaria <span class="accent">Castel</span></span>
           </div>
           <p class="footer-tagline">Tudo o que você precisa<br>está aqui.</p>
