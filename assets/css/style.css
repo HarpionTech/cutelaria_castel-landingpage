@@ -2348,6 +2348,17 @@ body.preloading .ambient { opacity: 0; }
      do fundo vinho — evita o "flash" que parecia corte na transição. */
   .preloader.zooming-out { background: #000; transition: background 0.4s ease; }
 
+  /* O castelo permanece OPACO até a porta escura cobrir a tela; só então
+     o fade (rápido e já invisível, pois a tela já está escura). Sem isso,
+     no portrait ele sumia ainda visível como castelo = "corte". Mesma
+     curva/duração do desktop — só a opacidade e a escala final mudam. */
+  .preloader-castle.zooming { animation-name: castleCameraInMob; }
+  @keyframes castleCameraInMob {
+    0%   { transform: scale(1);   opacity: 1; }
+    93%  { opacity: 1; }
+    100% { transform: scale(105); opacity: 0; }
+  }
+
   /* Book + Sobre */
   .about-grid { gap: 32px; }
   .book-scene { max-width: 380px; }
