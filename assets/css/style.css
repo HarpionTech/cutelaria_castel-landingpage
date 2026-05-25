@@ -2327,9 +2327,13 @@ body.preloading .ambient { opacity: 0; }
   .ecom-trust { gap: 16px; justify-content: center; }
   .catalog-filters { gap: 8px; margin-top: -10px; margin-bottom: 36px; }
   .filter-chip { font-size: 12px; padding: 8px 14px; }
-  /* Preloader idêntico ao desktop — só o tamanho inicial do castelo
-     se ajusta (a animação de zoom é a mesma). */
+  /* Preloader: animação de zoom IDÊNTICA ao desktop — só o tamanho
+     inicial do castelo se ajusta. */
   .preloader-castle { width: 130px; }
+  /* No portrait, ao iniciar o mergulho o fundo vira preto: quando o
+     castelo se dissolve no fim do zoom, revela preto (e o túnel) em vez
+     do fundo vinho — evita o "flash" que parecia corte na transição. */
+  .preloader.zooming-out { background: #000; transition: background 0.4s ease; }
 
   /* Book + Sobre */
   .about-grid { gap: 32px; }
