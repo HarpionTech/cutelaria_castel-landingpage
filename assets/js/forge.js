@@ -176,7 +176,12 @@
   });
 
   function step() {
-    if (!pageVisible) { requestAnimationFrame(step); return; }
+    // Não desenha enquanto a aba está oculta OU durante o preloader
+    // (libera GPU/CPU para o mergulho do castelo + transição do túnel,
+    // evitando engasgo/"corte" na animação de abertura no celular).
+    if (!pageVisible || document.body.classList.contains('preloading')) {
+      requestAnimationFrame(step); return;
+    }
     t++;
     ctx.globalCompositeOperation = 'source-over';
     ctx.clearRect(0, 0, W, H);
